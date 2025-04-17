@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:padding="@dimen/padding_medium"
         tools:context=".UpdateNoteFragment">
 
         <!-- Heading -->
@@ -16,14 +16,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit Note."
-            android:textSize="24sp"
+            android:textSize="@dimen/text_xlarge"
             android:textStyle="bold"
             android:textColor="@color/red"
             android:fontFamily="@font/poppins"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/margin_medium" />
 
         <!-- Title -->
         <EditText
@@ -32,14 +32,14 @@
             android:layout_height="60dp"
             android:hint="Enter the title"
             android:maxLines="1"
-            android:padding="12dp"
-            android:textSize="20sp"
+            android:padding="@dimen/padding_medium"
+            android:textSize="@dimen/text_large"
             android:fontFamily="@font/poppins"
             android:background="@drawable/pink_border"
             app:layout_constraintTop_toBottomOf="@id/editNoteHeading"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/margin_medium" />
 
         <!-- Description -->
         <EditText
@@ -48,16 +48,16 @@
             android:layout_height="0dp"
             android:hint="Enter the description"
             android:gravity="top"
-            android:padding="12dp"
-            android:textSize="18sp"
+            android:padding="@dimen/padding_medium"
+            android:textSize="@dimen/text_medium"
             android:fontFamily="@font/poppins"
             android:background="@drawable/pink_border"
             app:layout_constraintTop_toBottomOf="@id/editNoteTitle"
             app:layout_constraintBottom_toTopOf="@id/editNoteFab"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_medium" />
 
         <!-- Floating Button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -70,8 +70,8 @@
             android:contentDescription="editFab"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
