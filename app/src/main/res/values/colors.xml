@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="pink">#F88379</color>
-    <color name="red">#c13b34</color>
+
+    <!-- Primary Brand Colors -->
+    <color name="colorPrimary">#FF6F91</color> <!-- Pink -->
+    <color name="colorPrimaryVariant">#D94C78</color>
+    <color name="colorSecondary">#FFC1CC</color> <!-- Light Pink -->
+    <color name="colorSecondaryVariant">#FFEDF2</color>
+
+    <!-- Neutral Colors -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorError">#B00020</color>
+
+    <!-- Text Colors -->
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnBackground">#212121</color>
+    <color name="colorOnSurface">#212121</color>
+
+    <!-- Custom Color Aliases -->
+    <color name="pink">#FF6F91</color>
+    <color name="lightPink">#FFE4EC</color>
+    <color name="red">#E53935</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#757575</color>
+
 </resources>

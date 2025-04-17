@@ -1,10 +1,8 @@
 package com.example.thenotesapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.thenotesapp.database.NoteDatabase
 import com.example.thenotesapp.repository.NoteRespository
@@ -17,15 +15,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        // ✅ Enables drawing behind system bars (status bar, nav bar)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContentView(R.layout.activity_main)
 
         setupViewModel()
     }
 
-    private fun setupViewModel(){
+    private fun setupViewModel() {
         val noteRepository = NoteRespository(NoteDatabase(this))
-        val viewModelProviderFactory = NoteViewModelFactory(application , noteRepository)
-        noteViewModel = ViewModelProvider(this , viewModelProviderFactory)[NoteViewModel::class.java]
+        val viewModelProviderFactory = NoteViewModelFactory(application, noteRepository)
+        noteViewModel = ViewModelProvider(this, viewModelProviderFactory)[NoteViewModel::class.java]
     }
 }
