@@ -16,7 +16,8 @@ import com.example.thenotesapp.databinding.FragmentHomeBinding
 import com.example.thenotesapp.model.Note
 import com.example.thenotesapp.viewmodel.NoteViewModel
 
-class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener, MenuProvider {
+class HomeFragment : Fragment(R.layout.fragment_home),
+    SearchView.OnQueryTextListener, MenuProvider {
 
     private var homeBinding: FragmentHomeBinding? = null
     private val binding get() = homeBinding!!
@@ -48,7 +49,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     private fun setupHomeRecyclerView() {
-        noteAdapter = NoteAdapter()
+        noteAdapter = NoteAdapter(
+            onNoteClick = { note ->
+                // Pass entire note to EditNoteFragment (including isLocked + pinCode)
+                view?.findNavController()?.navigate(
+                    HomeFragmentDirections.actionHomeFragmentToEditNoteFragment(note)
+                )
+            },
+            onNoteUpdate = { note ->
+                notesViewModel.updateNote(note)
+            }
+        )
+
         binding.homeRecyclerView.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
@@ -62,7 +74,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     }
 
     private fun updateUI(notes: List<Note>?) {
-        if (notes != null && notes.isNotEmpty()) {
+        if (!notes.isNullOrEmpty()) {
             binding.emptyNotesImage.visibility = View.GONE
             binding.homeRecyclerView.visibility = View.VISIBLE
         } else {
@@ -78,12 +90,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        return false
-    }
+    override fun onQueryTextSubmit(query: String?): Boolean = false
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
+        if (!newText.isNullOrEmpty()) {
             searchNote(newText)
         }
         return true
@@ -99,9 +109,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         searchView?.setOnQueryTextListener(this)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return false
-    }
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
 
     override fun onDestroyView() {
         super.onDestroyView()

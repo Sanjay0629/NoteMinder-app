@@ -41,6 +41,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_medium" />
 
+        <!-- Pin Checkbox -->
+        <CheckBox
+            android:id="@+id/pinCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pin this note"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/addNoteTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_small" />
+
+        <!-- Lock Checkbox -->
+        <CheckBox
+            android:id="@+id/lockCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lock this note"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/pinCheckBox"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_xsmall" />
+
+        <!-- PIN input field (initially hidden) -->
+        <EditText
+            android:id="@+id/pinEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter PIN"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:visibility="gone"
+            android:padding="@dimen/padding_small"
+            android:background="@drawable/pink_border"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintTop_toBottomOf="@id/lockCheckBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_small" />
+
         <!-- Note Description -->
         <EditText
             android:id="@+id/addNoteDesc"
@@ -52,7 +91,7 @@
             android:textSize="@dimen/text_medium"
             android:fontFamily="@font/poppins"
             android:background="@drawable/pink_border"
-            app:layout_constraintTop_toBottomOf="@id/addNoteTitle"
+            app:layout_constraintTop_toBottomOf="@id/pinEditText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

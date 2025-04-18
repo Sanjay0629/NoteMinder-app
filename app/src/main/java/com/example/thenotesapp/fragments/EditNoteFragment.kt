@@ -1,12 +1,13 @@
 package com.example.thenotesapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.*
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -42,41 +43,78 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
 
         notesViewModel = (activity as MainActivity).noteViewModel
 
-        // ✅ Safely access the passed note argument
         args.note?.let { note ->
             currentNote = note
-            binding.editNoteTitle.setText(note.noteTitle ?: "")
-            binding.editNoteDesc.setText(note.noteDesc ?: "")
+
+            if (note.isLocked && !note.pinCode.isNullOrEmpty()) {
+                showPinDialog(note)
+            } else {
+                showNoteContent(note)
+            }
+
+            binding.editNoteFab.setOnClickListener {
+                saveUpdatedNote()
+            }
+
         } ?: run {
             Toast.makeText(requireContext(), "Error: Note not found", Toast.LENGTH_SHORT).show()
             view.findNavController().popBackStack()
         }
-
-        binding.editNoteFab.setOnClickListener {
-            val noteTitle = binding.editNoteTitle.text?.toString()?.trim() ?: ""
-            val noteDesc = binding.editNoteDesc.text?.toString()?.trim() ?: ""
-
-            if (noteTitle.isNotEmpty()) {
-                val updatedNote = Note(currentNote.id, noteTitle, noteDesc)
-                notesViewModel.updateNote(updatedNote)
-                view.findNavController().popBackStack(R.id.homeFragment, false)
-            } else {
-                Toast.makeText(context, "Please enter a Note Title", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
-    private fun deleteNote() {
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("Delete Note")
-            setMessage("Do you want to delete this note?")
-            setPositiveButton("Delete") { _, _ ->
-                notesViewModel.deleteNote(currentNote)
-                Toast.makeText(context, "Note deleted successfully", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.popBackStack(R.id.homeFragment, false)
+    private fun showPinDialog(note: Note) {
+        val input = EditText(requireContext())
+        input.hint = "Enter PIN"
+        input.inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Unlock Note")
+            .setMessage("This note is locked. Please enter the PIN.")
+            .setView(input)
+            .setPositiveButton("Unlock") { _, _ ->
+                val enteredPin = input.text.toString()
+                if (enteredPin == note.pinCode) {
+                    showNoteContent(note)
+                } else {
+                    Toast.makeText(context, "Incorrect PIN", Toast.LENGTH_SHORT).show()
+                    view?.findNavController()?.popBackStack()
+                }
             }
-            setNegativeButton("Cancel", null)
-        }.create().show()
+            .setNegativeButton("Cancel") { _, _ ->
+                view?.findNavController()?.popBackStack()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun showNoteContent(note: Note) {
+        binding.editNoteTitle.setText(note.noteTitle)
+        binding.editNoteDesc.setText(note.noteDesc)
+
+        // Optionally show pin/lock states (if visible in layout)
+        binding.editPinCheckBox.isChecked = note.isPinned
+        binding.editLockCheckBox.isChecked = note.isLocked
+    }
+
+    private fun saveUpdatedNote() {
+        val noteTitle = binding.editNoteTitle.text.toString().trim()
+        val noteDesc = binding.editNoteDesc.text.toString().trim()
+        val isPinned = binding.editPinCheckBox.isChecked
+        val isLocked = binding.editLockCheckBox.isChecked
+
+        if (noteTitle.isNotEmpty()) {
+            val updatedNote = currentNote.copy(
+                noteTitle = noteTitle,
+                noteDesc = noteDesc,
+                isPinned = isPinned,
+                isLocked = isLocked,
+                pinCode = if (isLocked) currentNote.pinCode else null
+            )
+            notesViewModel.updateNote(updatedNote)
+            view?.findNavController()?.popBackStack(R.id.homeFragment, false)
+        } else {
+            Toast.makeText(context, "Please enter a Note Title", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -92,6 +130,19 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note), MenuProvider {
             }
             else -> false
         }
+    }
+
+    private fun deleteNote() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Delete Note")
+            setMessage("Do you want to delete this note?")
+            setPositiveButton("Delete") { _, _ ->
+                notesViewModel.deleteNote(currentNote)
+                Toast.makeText(context, "Note deleted successfully", Toast.LENGTH_SHORT).show()
+                view?.findNavController()?.popBackStack(R.id.homeFragment, false)
+            }
+            setNegativeButton("Cancel", null)
+        }.create().show()
     }
 
     override fun onDestroyView() {

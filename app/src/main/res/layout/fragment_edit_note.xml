@@ -10,12 +10,12 @@
         android:padding="@dimen/padding_medium"
         tools:context=".UpdateNoteFragment">
 
-        <!-- Heading -->
+
         <TextView
             android:id="@+id/editNoteHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Note."
+            android:text="Edit Note"
             android:textSize="@dimen/text_xlarge"
             android:textStyle="bold"
             android:textColor="@color/red"
@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_medium" />
 
-        <!-- Title -->
+
         <EditText
             android:id="@+id/editNoteTitle"
             android:layout_width="0dp"
@@ -41,6 +41,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_medium" />
 
+
+        <CheckBox
+            android:id="@+id/editPinCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pin Note"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/editNoteTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_small" />
+
+
+        <CheckBox
+            android:id="@+id/editLockCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lock Note"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/editNoteTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_small" />
+
+        <!-- PIN Input -->
+        <EditText
+            android:id="@+id/editPinInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter new PIN (if changing)"
+            android:inputType="numberPassword"
+            android:visibility="gone"
+            android:padding="@dimen/padding_small"
+            android:background="@drawable/pink_border"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintTop_toBottomOf="@id/editPinCheckBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_small" />
+
         <!-- Description -->
         <EditText
             android:id="@+id/editNoteDesc"
@@ -52,14 +90,14 @@
             android:textSize="@dimen/text_medium"
             android:fontFamily="@font/poppins"
             android:background="@drawable/pink_border"
-            app:layout_constraintTop_toBottomOf="@id/editNoteTitle"
+            app:layout_constraintTop_toBottomOf="@id/editPinInput"
             app:layout_constraintBottom_toTopOf="@id/editNoteFab"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_medium" />
 
-        <!-- Floating Button -->
+        <!-- Save FAB -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editNoteFab"
             android:layout_width="wrap_content"
@@ -67,7 +105,7 @@
             android:backgroundTint="@color/pink"
             android:tint="@color/white"
             android:src="@drawable/baseline_done_24"
-            android:contentDescription="editFab"
+            android:contentDescription="Save Note"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/margin_medium"
