@@ -17,4 +17,7 @@ class NoteRespository(private val db: NoteDatabase) {
 
     // 📌 Get only pinned notes
     fun getPinnedNotes() = db.getNoteDao().getPinnedNotes()
+
+    fun getUnlockedNotes() = db.getNoteDao().getUnlockedNotes()
+
 }

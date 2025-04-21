@@ -27,4 +27,8 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes WHERE isPinned = 1 ORDER BY id DESC")
     fun getPinnedNotes(): LiveData<List<Note>>
+
+    // ✅ Newly added: Get only unlocked notes (used in export feature)
+    @Query("SELECT * FROM notes WHERE isLocked = 0 ORDER BY id DESC")
+    fun getUnlockedNotes(): LiveData<List<Note>>
 }

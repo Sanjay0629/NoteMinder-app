@@ -1,8 +1,14 @@
 package com.example.thenotesapp.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -15,6 +21,10 @@ import com.example.thenotesapp.adapter.NoteAdapter
 import com.example.thenotesapp.databinding.FragmentHomeBinding
 import com.example.thenotesapp.model.Note
 import com.example.thenotesapp.viewmodel.NoteViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeFragment : Fragment(R.layout.fragment_home),
     SearchView.OnQueryTextListener, MenuProvider {
@@ -46,15 +56,22 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         binding.addNoteFab.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_addNoteFragment)
         }
+
+        // 🔐 Request storage permission for Android 6–10
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 101)
+            }
+        }
     }
 
     private fun setupHomeRecyclerView() {
         noteAdapter = NoteAdapter(
             onNoteClick = { note ->
-                // Pass entire note to EditNoteFragment (including isLocked + pinCode)
-                view?.findNavController()?.navigate(
-                    HomeFragmentDirections.actionHomeFragmentToEditNoteFragment(note)
-                )
+                view?.findNavController()
+                    ?.navigate(HomeFragmentDirections.actionHomeFragmentToEditNoteFragment(note))
             },
             onNoteUpdate = { note ->
                 notesViewModel.updateNote(note)
@@ -109,7 +126,47 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         searchView?.setOnQueryTextListener(this)
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.exportNotes -> {
+                exportNotesToFile()
+                true
+            }
+
+            else -> false
+        }
+    }
+
+    private fun exportNotesToFile() {
+        val notes = noteAdapter.differ.currentList
+        if (notes.isEmpty()) {
+            Toast.makeText(requireContext(), "No notes to export", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val exportText = StringBuilder()
+        for ((index, note) in notes.withIndex()) {
+            exportText.append("Note ${index + 1}:\n")
+            exportText.append("Title: ${note.noteTitle}\n")
+            exportText.append("Description: ${note.noteDesc}\n\n")
+        }
+
+        try {
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val fileName = "Exported_Notes_$timeStamp.txt"
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val file = File(downloadsDir, fileName)
+
+            FileOutputStream(file).use { output ->
+                output.write(exportText.toString().toByteArray())
+            }
+
+            Toast.makeText(requireContext(), "Exported to Downloads: ${file.name}", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Export failed: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
