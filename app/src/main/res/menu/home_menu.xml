@@ -26,4 +26,11 @@
         android:title="@string/calendar_view"
         android:contentDescription="@string/calendar_view"
         app:showAsAction="never" />
+
+<!--    <item-->
+<!--        android:id="@+id/exportSelectedNotes"-->
+<!--        android:title="Export Selected"-->
+<!--        android:icon="@drawable/baseline_share_24"-->
+<!--        app:showAsAction="ifRoom" />-->
+
 </menu>

@@ -81,9 +81,19 @@
                 android:textSize="@dimen/text_small"
                 android:textColor="@android:color/darker_gray"
                 android:layout_marginTop="@dimen/margin_xsmall"
-                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_xsmall"
                 android:fontFamily="@font/poppins"
                 android:textStyle="italic" />
+
+            <!-- ✅ Selection Checkbox -->
+            <CheckBox
+                android:id="@+id/selectCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin_xsmall"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

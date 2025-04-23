@@ -3,6 +3,7 @@ package com.example.thenotesapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,8 @@ class NoteAdapter(
 
     val differ: AsyncListDiffer<Note> = AsyncListDiffer(this, differCallback)
 
+    private val selectedNotes = mutableSetOf<Note>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NoteLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NoteViewHolder(binding)
@@ -44,21 +47,17 @@ class NoteAdapter(
             noteTitle.text = currentNote.noteTitle
             noteDesc.text = currentNote.noteDesc
 
-            // 🗓️ Show formatted created date
             val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
             noteCreatedDate.text = "Created: ${sdf.format(Date(currentNote.createdDate))}"
 
-            // 📌 Show pin icon
             pinIcon.visibility = if (currentNote.isPinned) View.VISIBLE else View.GONE
 
-            // 🔒 Show lock icon
             lockIcon.visibility = View.VISIBLE
             lockIcon.setImageResource(
                 if (currentNote.isLocked) R.drawable.baseline_lock_24
                 else R.drawable.baseline_lock_open_24
             )
 
-            // 🔁 Click listeners
             root.setOnClickListener {
                 onNoteClick(currentNote)
             }
@@ -72,8 +71,18 @@ class NoteAdapter(
                 val updatedNote = currentNote.copy(isLocked = !currentNote.isLocked)
                 onNoteUpdate(updatedNote)
             }
+
+            selectCheckbox.setOnCheckedChangeListener(null)
+            selectCheckbox.isChecked = selectedNotes.contains(currentNote)
+
+            selectCheckbox.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
+                if (isChecked) selectedNotes.add(currentNote)
+                else selectedNotes.remove(currentNote)
+            }
         }
     }
+
+    fun getSelectedNotes(): List<Note> = selectedNotes.toList()
 
     fun getNoteAt(position: Int): Note = differ.currentList[position]
 }

@@ -1,9 +1,12 @@
 package com.example.thenotesapp.fragments
 
+import android.content.Intent
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.FileProvider
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -16,6 +19,9 @@ import com.example.thenotesapp.adapter.NoteAdapter
 import com.example.thenotesapp.databinding.FragmentHomeBinding
 import com.example.thenotesapp.model.Note
 import com.example.thenotesapp.viewmodel.NoteViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 
 class HomeFragment : Fragment(R.layout.fragment_home),
     SearchView.OnQueryTextListener, MenuProvider {
@@ -111,16 +117,60 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.exportNotes -> {
-                Toast.makeText(requireContext(), "Exporting notes...", Toast.LENGTH_SHORT).show()
+                exportSelectedNotesToPdf()
                 true
             }
             R.id.calendarView -> {
-                // 🔁 Navigate to Calendar Fragment
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_calendarFragment)
                 true
             }
             else -> false
         }
+    }
+
+    private fun exportSelectedNotesToPdf() {
+        val selectedNotes = noteAdapter.getSelectedNotes()
+        if (selectedNotes.isEmpty()) {
+            Toast.makeText(requireContext(), "No notes selected", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val fileName = "SelectedNotes_${System.currentTimeMillis()}.pdf"
+        val file = File(requireContext().cacheDir, fileName)
+
+        val pdfDocument = PdfDocument()
+        val paint = android.graphics.Paint()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+
+        var y = 50
+        selectedNotes.forEach { note ->
+            canvas.drawText("Title: ${note.noteTitle}", 10f, y.toFloat(), paint)
+            y += 20
+            canvas.drawText("Description: ${note.noteDesc}", 10f, y.toFloat(), paint)
+            y += 20
+            canvas.drawText("Created: ${Date(note.createdDate)}", 10f, y.toFloat(), paint)
+            y += 30
+        }
+
+        pdfDocument.finishPage(page)
+        pdfDocument.writeTo(FileOutputStream(file))
+        pdfDocument.close()
+
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            file
+        )
+
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(Intent.createChooser(shareIntent, "Share Selected Notes via PDF"))
     }
 
     override fun onDestroyView() {
