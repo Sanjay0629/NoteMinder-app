@@ -10,11 +10,13 @@
         android:padding="@dimen/padding_medium"
         tools:context=".MainActivity">
 
+        <!-- Fragment Container for Navigation -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             app:defaultNavHost="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -10,6 +10,13 @@
         android:padding="@dimen/padding_medium"
         tools:context=".UpdateNoteFragment">
 
+        <!-- Top Guideline for better spacing on large screens -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="@dimen/margin_large"
+            android:orientation="horizontal" />
 
         <TextView
             android:id="@+id/editNoteHeading"
@@ -20,16 +27,14 @@
             android:textStyle="bold"
             android:textColor="@color/red"
             android:fontFamily="@font/poppins"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/topGuideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/margin_medium" />
-
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
             android:id="@+id/editNoteTitle"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:hint="Enter the title"
             android:maxLines="1"
             android:padding="@dimen/padding_medium"
@@ -41,7 +46,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_medium" />
 
-
         <CheckBox
             android:id="@+id/editPinCheckBox"
             android:layout_width="wrap_content"
@@ -51,7 +55,6 @@
             app:layout_constraintTop_toBottomOf="@id/editNoteTitle"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/margin_small" />
-
 
         <CheckBox
             android:id="@+id/editLockCheckBox"
@@ -63,7 +66,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_small" />
 
-        <!-- PIN Input -->
         <EditText
             android:id="@+id/editPinInput"
             android:layout_width="0dp"
@@ -79,7 +81,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_small" />
 
-        <!-- Description -->
         <EditText
             android:id="@+id/editNoteDesc"
             android:layout_width="0dp"
@@ -97,7 +98,6 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_medium" />
 
-        <!-- Save FAB -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editNoteFab"
             android:layout_width="wrap_content"

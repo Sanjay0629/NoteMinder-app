@@ -10,26 +10,14 @@
         android:padding="@dimen/padding_medium"
         tools:context=".HomeFragment">
 
-        <!-- Floating Action Button -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addNoteFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:backgroundTint="@color/pink"
-            android:tint="@color/white"
-            android:contentDescription="Add Note"
-            app:srcCompat="@drawable/baseline_add_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- RecyclerView -->
+        <!-- RecyclerView (Responsive) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
+            android:clipToPadding="false"
+            android:paddingBottom="72dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,11 +30,26 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/emptybkg"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.4" />
+
+        <!-- Floating Action Button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addNoteFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:backgroundTint="@color/pink"
+            android:tint="@color/white"
+            android:contentDescription="Add Note"
+            app:srcCompat="@drawable/baseline_add_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,15 @@
         android:padding="@dimen/padding_medium"
         tools:context=".NewNoteFragment">
 
-        <!-- Add Note Heading -->
+        <!-- Top Guideline for better spacing on larger screens -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_begin="@dimen/margin_large"
+            android:orientation="horizontal" />
+
+        <!-- Heading -->
         <TextView
             android:id="@+id/addNoteHeading"
             android:layout_width="wrap_content"
@@ -20,16 +28,15 @@
             android:textStyle="bold"
             android:textColor="@color/red"
             android:fontFamily="@font/poppins"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/topGuideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/margin_medium" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Note Title -->
         <EditText
             android:id="@+id/addNoteTitle"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:hint="Enter the title"
             android:maxLines="1"
             android:padding="@dimen/padding_medium"

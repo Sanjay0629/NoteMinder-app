@@ -8,7 +8,7 @@ import com.example.thenotesapp.model.Note
 
 @Database(
     entities = [Note::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class NoteDatabase : RoomDatabase() {

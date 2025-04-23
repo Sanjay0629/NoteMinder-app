@@ -31,4 +31,8 @@ interface NoteDao {
     // ✅ Newly added: Get only unlocked notes (used in export feature)
     @Query("SELECT * FROM notes WHERE isLocked = 0 ORDER BY id DESC")
     fun getUnlockedNotes(): LiveData<List<Note>>
+
+    // 📅 Get notes created on a specific day (between start and end of that day)
+    @Query("SELECT * FROM notes WHERE createdDate BETWEEN :start AND :end ORDER BY createdDate DESC")
+    fun getNotesByDateRange(start: Long, end: Long): LiveData<List<Note>>
 }

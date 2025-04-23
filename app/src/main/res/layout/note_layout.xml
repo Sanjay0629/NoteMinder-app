@@ -4,21 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/noteCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
         app:cardElevation="@dimen/elevation_medium"
         app:cardCornerRadius="@dimen/corner_radius_medium"
-        app:cardBackgroundColor="@android:color/white">
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/pink_border"
             android:padding="@dimen/padding_medium">
 
-            <!-- Pin and Lock Icons Row -->
+            <!-- Top Row: Icons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,25 +30,25 @@
 
                 <ImageView
                     android:id="@+id/pinIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_width="@dimen/text_medium"
+                    android:layout_height="@dimen/text_medium"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:src="@drawable/baseline_push_pin_24"
                     android:contentDescription="@string/pin_note"
                     app:tint="@color/red"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/lockIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/text_medium"
+                    android:layout_height="@dimen/text_medium"
                     android:src="@drawable/baseline_lock_24"
                     android:contentDescription="@string/lock_note"
                     app:tint="@color/red"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <!-- Title -->
+            <!-- Note Title -->
             <TextView
                 android:id="@+id/noteTitle"
                 android:layout_width="match_parent"
@@ -57,7 +59,7 @@
                 android:textColor="@color/red"
                 android:fontFamily="@font/poppins" />
 
-            <!-- Description -->
+            <!-- Note Description -->
             <TextView
                 android:id="@+id/noteDesc"
                 android:layout_width="match_parent"
@@ -70,6 +72,18 @@
                 android:fontFamily="@font/poppins"
                 android:textColor="@color/pink" />
 
+            <!-- Note Created Date -->
+            <TextView
+                android:id="@+id/noteCreatedDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Created: 23 Apr 2025"
+                android:textSize="@dimen/text_small"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:fontFamily="@font/poppins"
+                android:textStyle="italic" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

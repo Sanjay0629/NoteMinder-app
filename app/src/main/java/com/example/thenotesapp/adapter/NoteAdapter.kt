@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.thenotesapp.R
 import com.example.thenotesapp.databinding.NoteLayoutBinding
 import com.example.thenotesapp.model.Note
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NoteAdapter(
     private val onNoteClick: (Note) -> Unit,
@@ -42,28 +44,30 @@ class NoteAdapter(
             noteTitle.text = currentNote.noteTitle
             noteDesc.text = currentNote.noteDesc
 
+            // 🗓️ Show formatted created date
+            val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            noteCreatedDate.text = "Created: ${sdf.format(Date(currentNote.createdDate))}"
 
+            // 📌 Show pin icon
             pinIcon.visibility = if (currentNote.isPinned) View.VISIBLE else View.GONE
 
-            // Show lock icon depending on lock status
+            // 🔒 Show lock icon
             lockIcon.visibility = View.VISIBLE
             lockIcon.setImageResource(
                 if (currentNote.isLocked) R.drawable.baseline_lock_24
                 else R.drawable.baseline_lock_open_24
             )
 
-            // OnClick: Only navigate if note is NOT locked
+            // 🔁 Click listeners
             root.setOnClickListener {
                 onNoteClick(currentNote)
             }
 
-            // Toggle pin
             pinIcon.setOnClickListener {
                 val updatedNote = currentNote.copy(isPinned = !currentNote.isPinned)
                 onNoteUpdate(updatedNote)
             }
 
-            // Toggle lock
             lockIcon.setOnClickListener {
                 val updatedNote = currentNote.copy(isLocked = !currentNote.isLocked)
                 onNoteUpdate(updatedNote)

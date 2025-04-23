@@ -14,5 +14,6 @@ data class Note(
     val noteDesc: String,
     val isPinned: Boolean = false,
     val isLocked: Boolean = false,
-    val pinCode: String? = null // Optional PIN for locked notes
+    val pinCode: String? = null,// Optional PIN for locked notes
+    val createdDate: Long = System.currentTimeMillis()
 ) : Parcelable

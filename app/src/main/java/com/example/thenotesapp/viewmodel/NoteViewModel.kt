@@ -41,4 +41,8 @@ class NoteViewModel(
 
     // 📂 Optional future addition for exporting only unlocked notes
     fun getUnlockedNotes() = noteRespository.getUnlockedNotes() // Only if you add this in DAO
+
+    // ✅ NEW FUNCTION: Get notes created between date range
+    fun getNotesByDateRange(startDate: Long, endDate: Long) =
+        noteRespository.getNotesByDateRange(startDate, endDate)
 }

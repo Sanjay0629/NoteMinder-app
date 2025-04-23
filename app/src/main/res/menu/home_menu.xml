@@ -2,18 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Search Notes -->
+    <!-- 🔍 Search Notes -->
     <item
         android:id="@+id/searchMenu"
         android:icon="@drawable/baseline_search_24"
-        android:title="Search"
+        android:title="@string/search"
+        android:contentDescription="@string/search_notes"
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
-    <!-- Export Notes -->
+    <!-- 📤 Export Notes -->
     <item
         android:id="@+id/exportNotes"
         android:icon="@drawable/baseline_file_download_24"
-        android:title="Export Notes"
+        android:title="@string/export_notes"
+        android:contentDescription="@string/export_notes"
+        app:showAsAction="never" />
+
+    <!-- 📅 Calendar View -->
+    <item
+        android:id="@+id/calendarView"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="@string/calendar_view"
+        android:contentDescription="@string/calendar_view"
         app:showAsAction="never" />
 </menu>

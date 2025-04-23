@@ -18,6 +18,12 @@ class NoteRespository(private val db: NoteDatabase) {
     // 📌 Get only pinned notes
     fun getPinnedNotes() = db.getNoteDao().getPinnedNotes()
 
+
     fun getUnlockedNotes() = db.getNoteDao().getUnlockedNotes()
+
+
+    // ✅ NEW FUNCTION: Get notes created between a date range
+    fun getNotesByDateRange(startDate: Long, endDate: Long) =
+        db.getNoteDao().getNotesByDateRange(startDate, endDate)
 
 }
