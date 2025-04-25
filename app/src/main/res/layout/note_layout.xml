@@ -20,13 +20,20 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_medium">
 
-            <!-- Top Row: Icons -->
+            <!--  Top Row: Checkbox + Icons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="end"
+                android:gravity="end|center_vertical"
                 android:layout_marginBottom="@dimen/margin_small">
+
+                <CheckBox
+                    android:id="@+id/selectCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginEnd="8dp" />
 
                 <ImageView
                     android:id="@+id/pinIcon"
@@ -48,7 +55,7 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <!-- Note Title -->
+            <!--  Note Title -->
             <TextView
                 android:id="@+id/noteTitle"
                 android:layout_width="match_parent"
@@ -59,7 +66,7 @@
                 android:textColor="@color/red"
                 android:fontFamily="@font/poppins" />
 
-            <!-- Note Description -->
+            <!--  Note Description -->
             <TextView
                 android:id="@+id/noteDesc"
                 android:layout_width="match_parent"
@@ -72,7 +79,7 @@
                 android:fontFamily="@font/poppins"
                 android:textColor="@color/pink" />
 
-            <!-- Note Created Date -->
+            <!-- Created Date -->
             <TextView
                 android:id="@+id/noteCreatedDate"
                 android:layout_width="match_parent"
@@ -84,16 +91,6 @@
                 android:layout_marginBottom="@dimen/margin_xsmall"
                 android:fontFamily="@font/poppins"
                 android:textStyle="italic" />
-
-            <!-- ✅ Selection Checkbox -->
-            <CheckBox
-                android:id="@+id/selectCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Select"
-                android:textSize="@dimen/text_small"
-                android:textColor="@color/black"
-                android:layout_marginTop="@dimen/margin_xsmall"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

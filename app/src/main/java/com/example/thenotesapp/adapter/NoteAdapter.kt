@@ -1,5 +1,8 @@
 package com.example.thenotesapp.adapter
 
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +61,25 @@ class NoteAdapter(
                 else R.drawable.baseline_lock_open_24
             )
 
+            // 🔒 Blur title and description if locked
+            if (currentNote.isLocked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    noteTitle.setRenderEffect(RenderEffect.createBlurEffect(10f, 10f, Shader.TileMode.CLAMP))
+                    noteDesc.setRenderEffect(RenderEffect.createBlurEffect(10f, 10f, Shader.TileMode.CLAMP))
+                } else {
+                    noteTitle.alpha = 0.3f
+                    noteDesc.alpha = 0.3f
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    noteTitle.setRenderEffect(null)
+                    noteDesc.setRenderEffect(null)
+                } else {
+                    noteTitle.alpha = 1f
+                    noteDesc.alpha = 1f
+                }
+            }
+
             root.setOnClickListener {
                 onNoteClick(currentNote)
             }
@@ -74,7 +96,6 @@ class NoteAdapter(
 
             selectCheckbox.setOnCheckedChangeListener(null)
             selectCheckbox.isChecked = selectedNotes.contains(currentNote)
-
             selectCheckbox.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
                 if (isChecked) selectedNotes.add(currentNote)
                 else selectedNotes.remove(currentNote)
@@ -83,6 +104,5 @@ class NoteAdapter(
     }
 
     fun getSelectedNotes(): List<Note> = selectedNotes.toList()
-
     fun getNoteAt(position: Int): Note = differ.currentList[position]
 }
